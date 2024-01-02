@@ -1,0 +1,45 @@
+<mat-toolbar color="secondary" fxLayoutGap="8px">
+  <button mat-icon-button routerLink="/home">
+    <mat-icon class="mat-18">menu</mat-icon>
+  </button>
+  <a mat-button routerLink="/home"
+    ><h1>{{ title }}</h1></a
+  >
+
+  <button mat-button [matMenuTriggerFor]="trackerMenu" routerLink="/tracker">
+    Tracker
+  </button>
+  <mat-menu #trackerMenu="matMenu">
+    <a mat-menu-item href="/tracker/tasks">Task</a>
+    <a mat-menu-item href="/tracker/newsFeed">News Feed</a>
+  </mat-menu>
+
+  <button mat-button [matMenuTriggerFor]="financeMenu" routerLink="/finance">
+    Finance
+  </button>
+  <mat-menu #financeMenu="matMenu">
+    <a mat-menu-item href="/finance/statements">Statements</a>
+    <a mat-menu-item href="/finance/reports">Reports</a>
+  </mat-menu>
+
+  <button
+    mat-button
+    [matMenuTriggerFor]="investmentsMenu"
+    routerLink="/investments"
+  >
+    Investments
+  </button>
+
+  <mat-menu #investmentsMenu="matMenu">
+    <a mat-menu-item href="/investments/stocks">Stocks</a>
+    <a mat-menu-item href="/investments/crypto">Crypto</a>
+  </mat-menu>
+</mat-toolbar>
+
+<router-outlet></router-outlet>
+
+<div class="footer fixed-bottom">
+  <div class="container-fluid">
+    <p>Copyright &#64;{{ currentDate | date : "y" }}. All Rights Reserved</p>
+  </div>
+</div>
