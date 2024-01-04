@@ -6,16 +6,8 @@ import { StocksComponent } from './stocks/stocks.component';
 import { CryptoComponent } from './crypto/crypto.component';
 import { InvestmentHomeComponent } from './investment-home/investment-home.component';
 
-
 @NgModule({
-  declarations: [
-    StocksComponent,
-    CryptoComponent,
-    InvestmentHomeComponent
-  ],
-  imports: [
-    CommonModule,
-    InvestmentsRoutingModule
-  ]
+  declarations: [StocksComponent, CryptoComponent, InvestmentHomeComponent],
+  imports: [CommonModule, InvestmentsRoutingModule],
 })
-export class InvestmentsModule { }
+export class InvestmentsModule {}

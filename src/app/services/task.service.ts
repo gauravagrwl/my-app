@@ -3,16 +3,16 @@ import {
   HttpErrorResponse,
   HttpParams,
 } from '@angular/common/http';
-import { Task } from '../models/task.model';
+import { Task } from '../models/task1.model';
 import { tasks } from './../../assets/mock-task';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, lastValueFrom, throwError } from 'rxjs';
-
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
-  baseUrl = 'http://localhost:4000/task/';
+  baseUrl = environment.taskUrl;
 
   private tasks: Task[] = tasks;
 

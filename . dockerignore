@@ -1,0 +1,13 @@
+target
+.mvn
+.settings
+.vscode
+.classpath
+.git
+.editorconfig
+/.vscode/*
+/node_modules
+/e2e
+/docs
+.gitignore
+*.zip

@@ -1,7 +1,7 @@
 import { TaskService } from './../../../../services/task.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Task } from '../../../../models/task.model';
+import { Task } from '../../../../models/task1.model';
 
 interface TaskForm {
   task: FormControl<string>;
@@ -26,10 +26,7 @@ export class CreateTaskComponent implements OnInit {
       nonNullable: true,
       validators: Validators.required,
     }),
-    type: new FormControl('', {
-      nonNullable: true,
-      validators: Validators.required,
-    }),
+    type: new FormControl(),
     startDate: new FormControl('', {
       nonNullable: true,
       validators: Validators.required,
@@ -55,10 +52,6 @@ export class CreateTaskComponent implements OnInit {
       this.taskForm.markAllAsTouched();
       return;
     }
-    // let t = this.taskForm.getRawValue() as Task;
-    // console.log(t);
-    console.log('addTask');
-
     this.taskService
       .createNewTask(this.taskForm.getRawValue() as Task)
       .subscribe();
