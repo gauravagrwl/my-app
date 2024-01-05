@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskService } from '../../../../services/task.service';
-import { Task } from '../../../../models/task1.model';
+import { Task } from '../../../../models/task.model';
 export interface PeriodicElement {
   name: string;
   position: number;

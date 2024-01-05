@@ -3,7 +3,7 @@ import {
   HttpErrorResponse,
   HttpParams,
 } from '@angular/common/http';
-import { Task } from '../models/task1.model';
+import { Task } from '../models/task.model';
 import { tasks } from './../../assets/mock-task';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, lastValueFrom, throwError } from 'rxjs';

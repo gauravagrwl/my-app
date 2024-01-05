@@ -1,7 +1,7 @@
 import { TaskService } from './../../../../services/task.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Task } from '../../../../models/task1.model';
+import { Task } from '../../../../models/task.model';
 
 interface TaskForm {
   task: FormControl<string>;
@@ -54,7 +54,6 @@ export class CreateTaskComponent implements OnInit {
     }
     this.taskService
       .createNewTask(this.taskForm.getRawValue() as Task)
-      .subscribe();
-    this.formClose.emit();
+      .subscribe((next) => this.formClose.emit());
   }
 }
