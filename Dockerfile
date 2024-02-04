@@ -1,7 +1,7 @@
 # Stage 1: Compile and Build angular codebase
 
 # Use official node image as the base image
-FROM node:current-alpine as builder
+FROM node:lts as builder
 
 # Set the working directory
 WORKDIR /app
@@ -19,7 +19,7 @@ RUN npx ng build --configuration production
 # Stage 2: Serve app with nginx server
 
 # Use official nginx image as the base image
-FROM nginx:latest
+FROM nginx:alpine
 
 # Copy the build output to replace the default nginx contents.
 # COPY --from=build /usr/local/app/dist/my-app/browser /usr/share/nginx/html
