@@ -10,7 +10,7 @@ WORKDIR /app
 COPY ./ /app/
 
 # Install all the dependencies
-RUN npm install --silent
+RUN npm ci --silent
 
 # Generate the build of the application
 RUN npx ng build --configuration production
