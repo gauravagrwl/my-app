@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskService } from '../../../../services/task.service';
 import { Task } from '../../../../models/task.model';
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
+
 
 @Component({
   selector: 'app-task',
@@ -14,6 +9,7 @@ export interface PeriodicElement {
   styleUrl: './task.component.scss',
 })
 export class TaskComponent implements OnInit {
+  
   deleteTask(id: String) {
     this.taskService.deleteTask(id).subscribe({
       next: () => this.getTasks(),

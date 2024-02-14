@@ -5,6 +5,7 @@ import { FinanceRoutingModule } from './finance-routing.module';
 import { FinanceHomeComponent } from './finance-home/finance-home.component';
 import { StatementsComponent } from './statements/statements.component';
 import { ReportsComponent } from './reports/reports.component';
+import { AppMaterialModule } from '../../../app-material.module';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { ReportsComponent } from './reports/reports.component';
   ],
   imports: [
     CommonModule,
-    FinanceRoutingModule
+    FinanceRoutingModule,
+    AppMaterialModule
   ]
 })
 export class FinanceModule { }
