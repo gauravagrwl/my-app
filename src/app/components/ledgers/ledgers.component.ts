@@ -108,7 +108,6 @@ export class LedgersComponent implements OnInit {
       next: ((data) => {
         if (data) {
           this.hideSpinner(true);
-          console.log(data);
           this.accountStatements = data
         }
       })
