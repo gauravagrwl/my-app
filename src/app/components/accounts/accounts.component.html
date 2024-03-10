@@ -1,0 +1,61 @@
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="2000ms"
+  (selectedTabChange)="tabChanged($event)">
+  @for(cat of inst_category; track cat) {
+  <mat-tab label="{{cat | titlecase}}">Content</mat-tab>
+  }
+</mat-tab-group>
+
+<div class="container responsive-grid" *ngIf="addNewAccount === false">
+  <mat-card *ngFor="let account of accounts" class="mat-elevation-z0" class="custom-card">
+    <mat-card-header>
+      <mat-card-title>{{account.institutionName}} -
+        {{account.institutionCategory | titlecase}}
+        <!-- @if (account.institutionCategory == 'BANKING' || 'Banking') {
+        Primary
+        }@else {
+        Other
+        } -->
+      </mat-card-title>
+      <mat-card-subtitle>
+        @if (account.accountType == 'PPF') {
+        {{account.accountType}}
+        }@else {
+        {{account.accountType | titlecase}}
+        }
+        ({{account.institutionCurrency}}) -
+        {{account.accountNumber}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        Balance : {{account.accountBalance | currency: account.institutionCurrency}}
+      </p><br />
+    </mat-card-content>
+    <mat-card-actions>
+      <div fxLayout="row" fxLayoutGap="5px">
+        <button mat-raised-button color="primary" (click)='navigateWithParam(account)'>Statements</button>
+        <button mat-raised-button color="accent" [disabled]=!account.isActive
+          (click)="openDialog(account)">Upload</button>
+        <mat-slide-toggle matTooltip="Is Active" [checked]="account.isActive"
+          (change)="toggleIsAccountActive(account.id)"></mat-slide-toggle>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card class="mat-elevation-z0" class="custom-card">
+    <mat-card-header>
+      <mat-card-title-group>
+        <mat-card-title>Register Account</mat-card-title>
+      </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-actions>
+      <button mat-icon-button aria-label="register account" (click)="RegisterAccount()">
+        <!-- Login  Page and registrations page-->
+        <!-- Do not display once login is complete-->
+        <mat-icon aria-hidden="false" aria-label="addAccount" matTooltip='Register Account'
+          fontIcon="account_balance"></mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<app-add-accounts *ngIf="addNewAccount === true" (formClose)="onCloseReport()"></app-add-accounts>

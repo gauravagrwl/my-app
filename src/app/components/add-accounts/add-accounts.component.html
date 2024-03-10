@@ -1,0 +1,94 @@
+<form [formGroup]="_parentForm" (ngSubmit)="onSubmit(_parentForm)">
+
+    <div formGroupName="institutionDetails">
+        <b>Enter Institution Details:</b>
+        <br />
+
+        <div class="example-container" fxLayout="row">
+            <label class="label-space">Enter Institution Name:
+                <input type="text" matInput formControlName="institutionName">
+                <small
+                    *ngIf="_institutionForm.controls['institutionName'].touched && !_institutionForm.controls['institutionName'].valid">Required.</small>
+            </label>
+        </div>
+        <div class="example-container" fxLayout="row">
+            <label class="label-space">Select Currency:
+                <select formControlName="institutionCurrency">
+                    <option>INR</option>
+                    <option>USD</option>
+                </select>
+            </label>
+        </div>
+        <div class="example-container" fxLayout="row">
+
+            <label class="label-space">Select Institution Category:
+                <select formControlName="institutionCategory">
+                    <option *ngFor="let accountCatType of accountCatList" [value]="accountCatType">
+                        {{accountCatType | titlecase}}
+                    </option>
+                </select>
+            </label>
+        </div>
+    </div>
+
+    <br />
+    <div formGroupName="accountDetails">
+        <b>Enter Account Details:</b>
+        <br />
+
+        <div class="example-container" fxLayout="row">
+            <label class="label-space">Enter Account Code:
+                <input type="text" matTooltip="Routing Number or IFC Number" formControlName="accountCode">
+                <small
+                    *ngIf="_accountDetailForm.controls['accountCode'].touched && !_accountDetailForm.controls['accountCode'].valid">Required.</small>
+            </label>
+
+        </div>
+
+        <div class="example-container" fxLayout="row">
+            <label class="label-space">Select Account Code Type:
+                <input type="radio" matTooltip="Routing Number or IFC Number" formControlName="accountCodeType"
+                    value="Ifsc Code">IFSC Code
+                <input type="radio" matTooltip="Routing Number or IFC Number" formControlName="accountCodeType"
+                    value="Routing Code">Routing Code
+                <input type="radio" matTooltip="Routing Number or IFC Number" formControlName="accountCodeType"
+                    value="">None
+                <small
+                    *ngIf="_accountDetailForm.controls['accountCodeType'].touched && !_accountDetailForm.controls['accountCodeType'].valid">Required.</small>
+            </label>
+
+        </div>
+
+        <div class="example-container" fxLayout="row">
+            <label class="label-space">Enter Account Number:
+                <input type="text" formControlName="accountNumber">
+                <small
+                    *ngIf="_accountDetailForm.controls['accountNumber'].touched && !_accountDetailForm.controls['accountNumber'].valid">Required.</small>
+            </label>
+        </div>
+        <div class="example-container" fxLayout="row">
+            <label class="label-space">Select Holding Type:
+                <select formControlName="holdingType">
+                    <option>Individual</option>
+                    <option>Joint</option>
+                </select>
+            </label>
+        </div>
+        <div class="example-container" fxLayout="row">
+            <label class="label-space">Select Account Type:
+                <select formControlName="accountType">
+                    <option *ngFor="let accountType of accountTypeList" [value]="accountType">
+                        {{accountType | titlecase }}
+                    </option>
+                </select>
+            </label>
+        </div>
+
+    </div>
+    <br />
+
+    <div class="example-container" fxLayout="row">
+        <button mat-button-raised color="primary">Submit</button>
+        <button mat-button color="primary" (click)="formClose.emit()">Cancel</button>
+    </div>
+</form>
