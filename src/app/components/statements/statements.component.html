@@ -1,7 +1,98 @@
-<p>Statement works!</p>
+<h3>Select account to see the Ledger:</h3>
+<br />
+<mat-chip-listbox aria-label="Fish selection">
 
-<mat-tab-group>
-    <mat-tab label="First"> Content 1 </mat-tab>
-    <mat-tab label="Second"> Content 2 </mat-tab>
-    <mat-tab label="Third"> Content 3 </mat-tab>
-</mat-tab-group>
+    <mat-chip-option [selected]="isChipSelected(account.id)" (click)="toggleSelection(account.id)"
+        (selectionChange)="selectionChange($event)" *ngFor="let account of accounts">
+        {{account.institutionName}} {{account.accountNumber}}
+    </mat-chip-option>
+</mat-chip-listbox>
+<br />
+<mat-divider></mat-divider>
+<h3>Account Ledger:</h3>
+@if (selectedAccountId !=null && dataReceived == false) {
+<mat-spinner></mat-spinner>
+}@else {
+<div class="tableContainer">
+    <table mat-table [dataSource]="accountStatements" matSort class="mat-elevation-z8 fullWidth">
+        <!-- Position Column -->
+        <ng-container matColumnDef="Sno">
+            <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+        <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td> -->
+            <th mat-header-cell *matHeaderCellDef>Sno.</th>
+            <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+            <!-- <td mat-cell *matCellDef="let accountStatement">{{ accountStatement.sno }}</td> -->
+        </ng-container>
+
+        <!-- Task Column -->
+        <ng-container matColumnDef="Transaction Date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Transaction Date</th>
+            <td mat-cell *matCellDef="let accountStatement">{{ accountStatement.transactionDate }}</td>
+        </ng-container>
+
+        <!-- Priority Column -->
+        <ng-container matColumnDef="Descriptions">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Descriptions</th>
+            <td mat-cell *matCellDef="let accountStatement">{{ accountStatement.descriptions }}</td>
+        </ng-container>
+
+        <!-- Type Column -->
+        <ng-container matColumnDef="Type">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+            <td mat-cell *matCellDef="let accountStatement">
+                <span *ngIf="accountStatement.type == 'Credit' || accountStatement.type == 'CREDIT'">Cr.</span>
+                <span *ngIf="accountStatement.type == 'Debit' || accountStatement.type == 'DEBIT'">Dr.</span>
+            </td>
+        </ng-container>
+
+        <!-- Type Column -->
+        <ng-container matColumnDef="Amount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
+            <td mat-cell *matCellDef="let accountStatement">
+                <span *ngIf="accountStatement.debit == 0">{{ accountStatement.credit | number: '1.2-2' }}</span>
+                <span *ngIf="accountStatement.credit == 0">{{ accountStatement.debit | number: '1.2-2'}}</span>
+            </td>
+        </ng-container>
+
+
+        <!-- StartDate Column -->
+        <ng-container matColumnDef="Balance">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Balance</th>
+            <td mat-cell *matCellDef="let accountStatement">
+                {{ accountStatement.balance | currency: selectedAccount.institutionCurrency}}
+            </td>
+        </ng-container>
+
+        //TODO: Edit or delete the records.
+        <!-- Options Column -->
+        <!-- <ng-container matColumnDef="Options">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Options</th>
+            <td mat-cell *matCellDef="let accountStatement">
+                <button mat-icon-button [disabled]="!accountStatement.duplicate">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+            </td>
+        </ng-container> -->
+        <ng-container matColumnDef="Options">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Options</th>
+            <td mat-cell *matCellDef="let accountStatement">
+
+                @if(accountStatement.duplicate){
+                <button mat-flat-button (click)="deleteAccountTransaction(accountStatement.id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                }@else{
+                <button mat-flat-button disabled="true">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                }
+
+            </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+</div>
+}

@@ -9,6 +9,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 
 
 import {
@@ -35,9 +37,24 @@ import { UploadDocumentDialogComponent } from '../common/dialog/upload.document.
     RouterModule,
     MatTabsModule,
     MatSlideToggleModule,
+    MatCheckboxModule,
   ]
 })
 export class AccountsComponent implements OnInit {
+  selectedCurr(curr: string) {
+    console.log(curr);
+    this.selectedAccounts = this.accounts.filter(a => this.category.toUpperCase() === a.institutionCategory.toUpperCase()).filter(a => curr.toUpperCase() === a.institutionCurrency.toUpperCase());
+    this.selectedAccounts.forEach(a => {
+      // this.inst_currency.add(a.institutionCurrency)
+      this.act_type.add(a.accountType)
+    })
+  }
+
+  selectedType(type: string) {
+    console.log(type);
+    this.selectedAccounts = this.accounts.filter(a => this.category.toUpperCase() === a.institutionCategory.toUpperCase()).filter(a => type.toUpperCase() === a.accountType.toUpperCase());
+
+  }
   toggleIsAccountActive(id: string) {
     this.accountService.toggleIsAccountActive(id).subscribe({
       next: () => {
@@ -49,12 +66,31 @@ export class AccountsComponent implements OnInit {
       }
     });
   }
-  tabChanged($event: MatTabChangeEvent) {
+  catChanged($event: MatTabChangeEvent) {
+    this.category = $event.tab.textLabel
+    console.log(this.category.toUpperCase());
+    this.selectedAccounts = this.accounts.filter(a =>
+      this.category.toUpperCase() === a.institutionCategory.toUpperCase()
+    )
+    this.inst_currency.clear();
+    this.act_type.clear();
+    this.selectedAccounts.forEach(a => {
+      this.inst_currency.add(a.institutionCurrency)
+      this.act_type.add(a.accountType)
+    })
+    console.log("this.accounts")
+    console.log(this.accounts)
+    console.log("this.selectedAccounts")
+    console.log(this.selectedAccounts)
     console.log($event.tab.textLabel)
   }
-
+  category!: string;
   inst_category = new Set<string>();
+  inst_currency = new Set<string>();
+  act_type = new Set<string>();
+
   accounts: AccountModel[] = []
+  selectedAccounts: AccountModel[] = []
   addNewAccount = false;
   account!: AccountModel
   animal: any;
@@ -75,6 +111,8 @@ export class AccountsComponent implements OnInit {
         this.accounts = data
         for (this.account of this.accounts) {
           this.inst_category.add(this.account.institutionCategory)
+          this.inst_currency.add(this.account.institutionCurrency)
+          this.act_type.add(this.account.accountType)
         }
       }
     })
@@ -103,7 +141,7 @@ export class AccountsComponent implements OnInit {
   }
 
   navigateWithParam(account: AccountModel): void {
-    this.router.navigate(['/ledger'], { queryParams: { id: account.id } });
+    this.router.navigate(['/statements'], { queryParams: { id: account.id } });
   }
 }
 

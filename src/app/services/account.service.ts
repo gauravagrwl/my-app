@@ -48,13 +48,13 @@ export class AccountService {
   }
 
   getAllAccounts(): Observable<AccountModel[]> {
-    const allAccountUrl = "getUserAccounts"
+    const allAccountUrl = "getAccounts"
     return this.httpClient.get<AccountModel[]>(this.baseUrl + allAccountUrl)
       .pipe(catchError(this.handleError))
   }
 
   getSelectedAccount(id: string): Observable<AccountModel> {
-    const allAccountUrl = "getUserAccount"
+    const allAccountUrl = "getAccount"
     const param = new HttpParams().set('accountId', id);
     return this.httpClient.get<AccountModel>(this.baseUrl + allAccountUrl, { params: param })
       .pipe(catchError(this.handleError))
@@ -68,12 +68,7 @@ export class AccountService {
       .pipe(catchError(this.handleError))
   }
 
-  uploadAccountStatement(formData: FormData, id: string): Observable<string> {
-    const uploadStatementUrl = "uploadStatements";
-    const param = new HttpParams().set('accountId', id);
-    return this.httpClient.post(this.baseUrl + uploadStatementUrl, formData, { params: param, responseType: 'text' })
-      .pipe(catchError(this.handleError))
-  }
+
 
   private handleError(error: HttpErrorResponse) {
     console.log(error);

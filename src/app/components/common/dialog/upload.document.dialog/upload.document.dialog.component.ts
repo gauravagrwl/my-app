@@ -16,6 +16,10 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AccountService } from '../../../../services/account.service';
+import { MatSelectModule } from '@angular/material/select';
+import { UploadService } from '../../../../services/upload.service';
+
+
 
 @Component({
   selector: 'app-upload.document.dialog',
@@ -29,6 +33,7 @@ import { AccountService } from '../../../../services/account.service';
     MatDialogContent,
     MatDialogActions,
     MatDialogClose,
+    MatSelectModule,
     CommonModule
   ],
   templateUrl: './upload.document.dialog.component.html',
@@ -36,6 +41,7 @@ import { AccountService } from '../../../../services/account.service';
 })
 export class UploadDocumentDialogComponent {
   selectedFile!: File;
+  selected: any;
   onFileSelected(event: any) {
     console.log(event)
     this.selectedFile = event.target.files[0] as File;
@@ -45,7 +51,7 @@ export class UploadDocumentDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<UploadDocumentDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public account: AccountModel,
-    private accountService: AccountService
+    private uploadService: UploadService
   ) { }
 
   onNoClick(): void {
@@ -56,21 +62,13 @@ export class UploadDocumentDialogComponent {
 
   uploadFile() {
     if (this.selectedFile) {
+      alert(this.selected);
       const formData = new FormData();
       formData.append('file', this.selectedFile);
-      this.accountService.uploadAccountStatement(formData, this.account.id).
+      this.uploadService.uploadData(formData, this.account.id, this.selected).
         subscribe({
           next: (data) => { this.dialogRef.close(data) }
         })
-
-      // this.http.post('your-upload-api-endpoint', formData).subscribe(
-      //   (response) => {
-      //     console.log('File uploaded successfully', response);
-      //   },
-      //   (error) => {
-      //     console.error('Error uploading file', error);
-      //   }
-      // );
     } else {
       console.warn('No file selected');
     }
