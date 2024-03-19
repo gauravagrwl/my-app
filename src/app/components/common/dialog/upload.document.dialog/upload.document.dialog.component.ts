@@ -55,14 +55,12 @@ export class UploadDocumentDialogComponent {
   ) { }
 
   onNoClick(): void {
-    alert('no thanks clicked!');
     this.dialogRef.close();
   }
 
 
   uploadFile() {
     if (this.selectedFile) {
-      alert(this.selected);
       const formData = new FormData();
       formData.append('file', this.selectedFile);
       this.uploadService.uploadData(formData, this.account.id, this.selected).

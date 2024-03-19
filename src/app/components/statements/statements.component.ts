@@ -35,7 +35,8 @@ export class StatementsComponent implements OnInit {
     'Type',
     'Amount',
     'Balance',
-    'Options'
+    'Duplicate',
+    'Reconciled'
   ];
 
 

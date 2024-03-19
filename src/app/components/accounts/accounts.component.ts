@@ -111,6 +111,8 @@ export class AccountsComponent implements OnInit {
         this.accounts = data
         for (this.account of this.accounts) {
           this.inst_category.add(this.account.institutionCategory)
+          const sortedStringsArray = [...this.inst_category].sort();
+          this.inst_category = new Set(sortedStringsArray);
           this.inst_currency.add(this.account.institutionCurrency)
           this.act_type.add(this.account.accountType)
         }
