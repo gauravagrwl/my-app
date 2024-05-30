@@ -1,24 +1,29 @@
-import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UploadService {
 
-  baseUrl = environment.appUrlHost + "upload/";
+export class HoldingService {
+
+
+  statementUrl = environment.appUrlHost + "report/";
 
 
   constructor(private httpClient: HttpClient) { }
 
-  uploadData(formData: FormData, id: string, docType: string): Observable<string> {
-    const uploadStatementUrl = "uploadDocuments";
+
+  getHoldings(id: string): Observable<any[]> {
+
+    const accountStatement = "getUserHoldings"
     const param = new HttpParams().set('accountId', id);
-    return this.httpClient.post(this.baseUrl + uploadStatementUrl, formData, { params: param, responseType: 'text' })
+    return this.httpClient.get<any[]>(this.statementUrl + accountStatement, { params: param })
       .pipe(catchError(this.handleError))
   }
+
 
   private handleError(error: HttpErrorResponse) {
     console.log(error);

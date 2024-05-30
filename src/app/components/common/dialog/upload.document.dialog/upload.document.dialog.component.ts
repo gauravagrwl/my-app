@@ -43,7 +43,6 @@ export class UploadDocumentDialogComponent {
   selectedFile!: File;
   selected: any;
   onFileSelected(event: any) {
-    console.log(event)
     this.selectedFile = event.target.files[0] as File;
   }
 

@@ -3,19 +3,21 @@ import { environment } from '../../environments/environment';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, catchError, lastValueFrom, tap, throwError } from 'rxjs';
 import { AccountModel, AccountStatementModel } from '../model/accounts.model';
+import { Statement } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
-  deleteAccountTransaction(accountId: string, transactionId: string): Observable<any> {
-    const deleteTransactionUrl = "deleteTransaction";
-    const param = new HttpParams().set('accountId', accountId).set('transactionId', transactionId);
-    return this.httpClient.delete(this.baseUrl + deleteTransactionUrl, { params: param, responseType: 'text' })
-      .pipe(catchError(this.handleError))
 
-  }
+
+
+
   baseUrl = environment.appUrlHost + "profileAccount/";
+  statementUrl = environment.appUrlHost + "accountStatement/";
+
+
+
 
   constructor(private httpClient: HttpClient) { }
 
@@ -53,6 +55,13 @@ export class AccountService {
       .pipe(catchError(this.handleError))
   }
 
+  getAllInvestmentAccounts(institutionCategory: string): Observable<any[]> {
+    const allAccountUrl = "getAccounts"
+    const param = new HttpParams().set('institutionCategory', institutionCategory);
+    return this.httpClient.get<any[]>(this.baseUrl + allAccountUrl, { params: param })
+      .pipe(catchError(this.handleError))
+  }
+
   getSelectedAccount(id: string): Observable<AccountModel> {
     const allAccountUrl = "getAccount"
     const param = new HttpParams().set('accountId', id);
@@ -62,13 +71,29 @@ export class AccountService {
 
 
   getAccountStatement(id: string): Observable<AccountStatementModel[]> {
-    const accountStatement = "accountStatements"
+
+    const accountStatement = "getAccountStatement"
     const param = new HttpParams().set('accountId', id);
-    return this.httpClient.get<AccountStatementModel[]>(this.baseUrl + accountStatement, { params: param })
+    return this.httpClient.get<AccountStatementModel[]>(this.statementUrl + accountStatement, { params: param })
       .pipe(catchError(this.handleError))
   }
 
 
+  deleteAccountTransaction(accountId: string, transactionId: string): Observable<any> {
+    const deleteTransactionUrl = "deleteTransaction";
+    const param = new HttpParams().set('accountId', accountId).set('transactionId', transactionId);
+    return this.httpClient.delete(this.statementUrl + deleteTransactionUrl, { params: param, responseType: 'text' })
+      .pipe(catchError(this.handleError))
+
+  }
+
+  deleteAccount(id: string): Observable<any> {
+    const deleteAccountUrl = "deleteAccount";
+    const param = new HttpParams().set('accountId', id);
+    return this.httpClient.delete(this.baseUrl + deleteAccountUrl, { params: param, responseType: 'text' })
+      .pipe(catchError(this.handleError))
+
+  }
 
   private handleError(error: HttpErrorResponse) {
     console.log(error);

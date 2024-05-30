@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 import {
@@ -38,6 +38,7 @@ import { UploadDocumentDialogComponent } from '../common/dialog/upload.document.
     MatTabsModule,
     MatSlideToggleModule,
     MatCheckboxModule,
+    MatTooltipModule,
   ]
 })
 export class AccountsComponent implements OnInit {
@@ -50,11 +51,7 @@ export class AccountsComponent implements OnInit {
     })
   }
 
-  selectedType(type: string) {
-    console.log(type);
-    this.selectedAccounts = this.accounts.filter(a => this.category.toUpperCase() === a.institutionCategory.toUpperCase()).filter(a => type.toUpperCase() === a.accountType.toUpperCase());
 
-  }
   toggleIsAccountActive(id: string) {
     this.accountService.toggleIsAccountActive(id).subscribe({
       next: () => {
@@ -66,6 +63,21 @@ export class AccountsComponent implements OnInit {
       }
     });
   }
+
+  deleteAccount(id: string) {
+    this.accountService.deleteAccount(id).subscribe({
+      next: () => {
+        this.getAccounts();
+      }
+    });
+  }
+
+  // selectedType(type: string) {
+  //   console.log(type);
+  //   this.selectedAccounts = this.accounts.filter(a => this.category.toUpperCase() === a.institutionCategory.toUpperCase()).filter(a => type.toUpperCase() === a.accountType.toUpperCase());
+
+  // }
+
   catChanged($event: MatTabChangeEvent) {
     this.category = $event.tab.textLabel
     console.log(this.category.toUpperCase());
@@ -107,17 +119,23 @@ export class AccountsComponent implements OnInit {
   getAccounts() {
     this.accountService.getAllAccounts().subscribe({
       next: (data) => {
-        console.log(data)
         this.accounts = data
         for (this.account of this.accounts) {
           this.inst_category.add(this.account.institutionCategory)
           const sortedStringsArray = [...this.inst_category].sort();
           this.inst_category = new Set(sortedStringsArray);
-          this.inst_currency.add(this.account.institutionCurrency)
-          this.act_type.add(this.account.accountType)
+          this.inst_currency.add(this.account.institutionCurrency);
+          this.act_type.add(this.account.accountType);
+        }
+        console.log(this.accounts.length);
+        if (this.accounts.length == 0) {
+          console.log(this.inst_category.size);
+          this.inst_category.add('BANKING');
         }
       }
-    })
+    });
+
+
   }
 
   RegisterAccount() {

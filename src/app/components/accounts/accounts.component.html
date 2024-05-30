@@ -1,16 +1,16 @@
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" (selectedTabChange)="catChanged($event)">
   @for(_cat of inst_category; track _cat) {
   <mat-tab label="{{_cat | titlecase}}">
-
+    <!--
     <section class="example-section">
       @for(_cur of inst_currency; track _cur) {
       <mat-checkbox class="example-margin" (change)="selectedCurr(_cur)">{{_cur}}</mat-checkbox>
       }
-      @for(_type of act_type; track _type) {
+       @for(_type of act_type; track _type) {
       <mat-checkbox class="example-margin" (change)="selectedType(_type)">{{_type}}</mat-checkbox>
       }
     </section>
-
+-->
     <div class="container responsive-grid" *ngIf="addNewAccount === false">
       <mat-card *ngFor="let account of selectedAccounts" class="mat-elevation-z0" class="custom-card">
         <mat-card-header>
@@ -21,6 +21,7 @@
         }@else {
         Other
         } -->
+
           </mat-card-title>
           <mat-card-subtitle>
             @if (account.accountType == 'PPF') {
@@ -43,6 +44,10 @@
               (click)="openDialog(account)">Upload</button>
             <mat-slide-toggle matTooltip="Is Active" [checked]="account.isActive"
               (change)="toggleIsAccountActive(account.id)"></mat-slide-toggle>
+            <button mat-mini-fab color="primary" aria-label="deleteAccount" matTooltip='Delete Account Transaction'
+              (click)="deleteAccount(account.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
           </div>
         </mat-card-actions>
       </mat-card>
@@ -54,11 +59,11 @@
           </mat-card-title-group>
         </mat-card-header>
         <mat-card-actions>
-          <button mat-icon-button aria-label="register account" (click)="RegisterAccount()">
+          <button mat-icon-button aria-label="register account" (click)="RegisterAccount()" aria-label="addAccount"
+            matTooltip='Register Account'>
+            <mat-icon>account_balance</mat-icon>
             <!-- Login  Page and registrations page-->
             <!-- Do not display once login is complete-->
-            <mat-icon aria-hidden="false" aria-label="addAccount" matTooltip='Register Account'
-              fontIcon="account_balance"></mat-icon>
           </button>
         </mat-card-actions>
       </mat-card>

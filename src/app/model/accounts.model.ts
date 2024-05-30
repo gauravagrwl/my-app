@@ -26,3 +26,12 @@ export interface AccountStatementModel {
     duplicate: boolean,
     sno: number
 }
+
+export interface CashFlowReportModel {
+    id: string,
+    cashIn: number,
+    cashOut: number,
+    description: string,
+    transactionDate: string,
+    transactionType: string
+}

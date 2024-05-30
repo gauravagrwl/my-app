@@ -8,6 +8,7 @@ import { HoldingsComponent } from './components/holdings/holdings.component';
 import { TradingComponent } from './components/trading/trading.component';
 import { LoginComponent } from './components/common/login/login.component';
 import { LogoutComponent } from './components/common/logout/logout.component';
+import { ReportsComponent } from './components/reports/reports.component';
 
 export const routes: Routes = [
 
@@ -23,6 +24,8 @@ export const routes: Routes = [
 
     { path: 'statements', component: StatementsComponent },
     { path: 'statements/:id', component: StatementsComponent },
+
+    { path: 'reports', component: ReportsComponent },
 
     { path: 'holdings', component: HoldingsComponent },
 

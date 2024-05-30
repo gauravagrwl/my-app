@@ -9,7 +9,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+// All about statement related to bank transsactions
 @Component({
   selector: 'app-statement',
   standalone: true,
@@ -26,6 +26,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   templateUrl: './statements.component.html',
   styleUrl: './statements.component.scss'
 })
+//TODO: Change the display based on type, banking, investment or loan
 export class StatementsComponent implements OnInit {
 
   displayedColumns: string[] = [
@@ -44,13 +45,13 @@ export class StatementsComponent implements OnInit {
 
 
   accounts: AccountModel[] = []
-  accountStatements: AccountStatementModel[] = []
+  accountStatements: any = []
   selectedAccount!: AccountModel
 
   selectedAccountId: string | any;
 
   selectedChips: string | any;
-  dataReceived: boolean = false;
+  isDataReceived: boolean = false;
   constructor(private route: ActivatedRoute, private accountService: AccountService) { }
 
   ngOnInit() {
@@ -92,8 +93,6 @@ export class StatementsComponent implements OnInit {
 
   selectionChange(event: MatChipSelectionChange): void {
     this.isChipSelected_ = event.selected
-
-
   }
 
   getSelectedAccounts(id: string) {
@@ -106,6 +105,9 @@ export class StatementsComponent implements OnInit {
     this.accountService.getAccountStatement(id).subscribe({
       next: ((data) => {
         if (data) {
+          var key = Object.keys(data[0]);
+          console.log("KEYSSSS")
+          console.log(key);
           this.hideSpinner(true);
           this.accountStatements = data
         }
@@ -113,14 +115,13 @@ export class StatementsComponent implements OnInit {
     })
   }
   hideSpinner(bool: boolean) {
-    this.dataReceived = bool
+    this.isDataReceived = bool
   }
 
   deleteAccountTransaction(transactionId: string) {
     this.accountService.deleteAccountTransaction(this.selectedAccount.id, transactionId).subscribe({
       next: () => this.getAccountStatement(this.selectedAccount.id)
     });
-    throw new Error('Method not implemented.');
   }
 
 }
