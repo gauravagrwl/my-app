@@ -30,7 +30,7 @@ FROM nginx:alpine
 RUN rm -rf /usr/share/nginx/html/*
 
 
-COPY --from=builder /app/dist/my-app/browser /usr/share/nginx/html/
+COPY --from=builder /app/dist/home-app/browser /usr/share/nginx/html/
 # COPY /nginx.conf  /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/nginx.conf
 # Expose port 80

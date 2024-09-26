@@ -1,0 +1,108 @@
+<h3>Select By Year:</h3>
+<br />
+<mat-chip-listbox aria-label="Cash Flow selection">
+
+    <mat-chip-option [selected]="isChipSelected(cashFlowYear)" (click)="toggleSelection(cashFlowYear)"
+        (selectionChange)="selectionChange($event)" *ngFor="let cashFlowYear of cashFlowYearList">
+        CashFlow of {{cashFlowYear}}
+    </mat-chip-option>
+</mat-chip-listbox>
+<br />
+<mat-divider></mat-divider>
+<h3>Cash Flow Report:</h3>
+<mat-divider></mat-divider>
+@if (isSelectedCashFlowYear !=null && isDataReceived == false) {
+<mat-spinner></mat-spinner>
+}@else {
+<div class="tableContainer">
+    <table mat-table [dataSource]="cashFlowReports" matSort class="mat-elevation-z8 fullWidth">
+        <!-- Position Column -->
+        <ng-container matColumnDef="Sno">
+            <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+        <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td> -->
+            <th mat-header-cell *matHeaderCellDef>Sno.</th>
+            <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+            <!-- <td mat-cell *matCellDef="let accountStatement">{{ accountStatement.sno }}</td> -->
+        </ng-container>
+
+        <!-- Task Column -->
+        <ng-container matColumnDef="Transaction Date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Transaction Date</th>
+            <td mat-cell *matCellDef="let cashFlowReport">{{ cashFlowReport.transactionDate }}</td>
+        </ng-container>
+
+        <!-- Task Column -->
+        <ng-container matColumnDef="Account">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Account</th>
+            <td mat-cell *matCellDef="let cashFlowReport">{{ cashFlowReport.accountName }}</td>
+        </ng-container>
+
+        <!-- Priority Column -->
+        <ng-container matColumnDef="Descriptions">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Descriptions</th>
+            <td mat-cell *matCellDef="let cashFlowReport">{{ cashFlowReport.description }}</td>
+        </ng-container>
+
+        <!-- Priority Column -->
+        <ng-container matColumnDef="Currency">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Currency</th>
+            <td mat-cell *matCellDef="let cashFlowReport">{{ cashFlowReport.institutionCurrency }}</td>
+        </ng-container>
+
+        <!-- Type Column -->
+        <ng-container matColumnDef="Type">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+            <td mat-cell *matCellDef="let cashFlowReport">
+                {{cashFlowReport.transactionType}}
+            </td>
+        </ng-container>
+
+
+
+        <!-- Type Column -->
+        <ng-container matColumnDef="Amount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
+            <td mat-cell *matCellDef="let cashFlowReport">
+                <span *ngIf="cashFlowReport.cashIn == 0">{{ cashFlowReport.cashOut | number: '1.2-2' }}</span>
+                <span *ngIf="cashFlowReport.cashOut == 0">{{ cashFlowReport.cashIn | number: '1.2-2'}}</span>
+            </td>
+        </ng-container>
+
+
+        <!-- StartDate Column -->
+        <ng-container matColumnDef="Balance">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Balance</th>
+            <td mat-cell *matCellDef="let accountStatement">
+            </td>
+        </ng-container>
+
+        //TODO: Edit or delete the records.
+        <!-- Options Column -->
+        <!-- <ng-container matColumnDef="Options">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Options</th>
+            <td mat-cell *matCellDef="let accountStatement">
+                <button mat-icon-button [disabled]="!accountStatement.duplicate">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+            </td>
+        </ng-container> -->
+
+        <ng-container matColumnDef="Reconciled">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>IsReconciled</th>
+            <td mat-cell *matCellDef="let accountStatement">
+
+                @if(accountStatement.reconciled){
+                <mat-icon>check</mat-icon>
+                }@else{
+                <mat-icon>close</mat-icon>
+                }
+
+            </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+</div>
+}

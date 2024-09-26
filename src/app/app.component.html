@@ -1,45 +1,73 @@
-<mat-toolbar color="secondary" fxLayoutGap="8px">
-  <button mat-icon-button routerLink="/home">
-    <mat-icon class="mat-18">menu</mat-icon>
+<mat-toolbar>
+  <button mat-icon-button aria-label="login into the application" routerLink="login">
+    <!-- Login  Page and registrations page-->
+    <!-- Do not display once login is complete-->
+    <mat-icon aria-hidden="false" aria-label="Login" matTooltip='Login' fontIcon="login"></mat-icon>
   </button>
-  <a mat-button routerLink="/home"
-    ><h1>{{ title }}</h1></a
-  >
+  <button mat-icon-button aria-label="Route to home page" routerLink="home">
 
-  <button mat-button [matMenuTriggerFor]="trackerMenu" routerLink="/tracker">
-    Tracker
-  </button>
-  <mat-menu #trackerMenu="matMenu">
-    <a mat-menu-item href="/tracker/tasks">Task</a>
-    <a mat-menu-item href="/tracker/newsFeed">News Feed</a>
-  </mat-menu>
-
-  <button mat-button [matMenuTriggerFor]="financeMenu" routerLink="/finance">
-    Finance
-  </button>
-  <mat-menu #financeMenu="matMenu">
-    <a mat-menu-item href="/finance/statements">Statements</a>
-    <a mat-menu-item href="/finance/reports">Reports</a>
-  </mat-menu>
-
-  <button
-    mat-button
-    [matMenuTriggerFor]="investmentsMenu"
-    routerLink="/investments"
-  >
-    Investments
+    <!-- To home page display list of News feed, and task list that need to be done. -->
+    <!-- If not logged in then Display Always with initialize data.. no backend call Only in memomry calls logout or login clean -->
+    <mat-icon aria-hidden="false" aria-label="Home Page" matTooltip='Home' fontIcon="home"></mat-icon>
   </button>
 
-  <mat-menu #investmentsMenu="matMenu">
-    <a mat-menu-item href="/investments/stocks">Stocks</a>
-    <a mat-menu-item href="/investments/crypto">Crypto</a>
-  </mat-menu>
+  <!-- All primary and other accounts -->
+  <!-- Display once login is successful -->
+  <button mat-button routerLink="/accounts">
+    Accounts
+  </button>
+
+  <!-- Statements like cashflow report, P/L, Balance Sheets -->
+  <!-- Display once login is successful -->
+  <button mat-button routerLink="/statements">
+    Statements
+  </button>
+
+  <!-- Ledger like bank statment, stock ledger, rent ledger -->
+  <!-- Display once login is successful -->
+  <button mat-button routerLink="/ledger">
+    Ledgers
+  </button>
+
+  <!-- Report like CashFlow -->
+  <!-- Display once login is successful -->
+  <button mat-button routerLink="/reports">
+    Reports
+  </button>
+
+  <!-- Stock / Crypto holdings -->
+  <!-- Display once login is successful -->
+  <button mat-button routerLink="/holdings">
+    Holdings
+  </button>
+
+
+
+  <!-- Enable or disable Algotrading and report only on algo trading rules and others -->
+  <!-- Display once login is successful -->
+  <button mat-button routerLink="/trading">
+    Trading
+  </button>
+
+  <!-- For other tracker like Gorrila tracker -->
+  <!-- Display once login is successful -->
+  <button mat-button routerLink="/tracker">
+    Trackers
+  </button>
+
+  <span class="flex-spacer"></span>
+
+  <!-- <button mat-icon-button routerLink="/logout" matTooltip="Logout" aria-label="Logout">
+    <mat-icon>lock_close</mat-icon>
+  </button> -->
+  <button mat-icon-button routerLink="/logout" matTooltip="Logout" aria-label="Logout">
+    <mat-icon>logout</mat-icon>
+  </button>
 </mat-toolbar>
-
+<br />
 <router-outlet></router-outlet>
-
-<div class="footer fixed-bottom">
+<!-- <div class="footer fixed-bottom">
   <div class="container-fluid">
     <p>Copyright &#64;{{ currentDate | date : 'y' }}. All Rights Reserved</p>
   </div>
-</div>
+</div> -->

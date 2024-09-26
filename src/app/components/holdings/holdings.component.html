@@ -1,0 +1,71 @@
+<h3>Select account to see the Holding Statements:</h3>
+<br />
+<mat-chip-listbox aria-label="Fish selection">
+
+    <mat-chip-option [selected]="isChipSelected(account.id)" (selectionChange)="selectionChange($event, account.id)"
+        *ngFor="let account of accounts">
+        {{account.institutionName}} -- {{account.accountNumber}}
+    </mat-chip-option>
+</mat-chip-listbox>
+<br />
+<mat-divider></mat-divider>
+<h3>Holdings:</h3>
+@if (selectedAccountId !=null && isDataReceived == false) {
+<mat-spinner></mat-spinner>
+}@else {
+<div class="tableContainer">
+    <table mat-table [dataSource]="holdings" multiTemplateDataRows class="mat-elevation-z8">
+        @for (column of columnsToDisplay; track column; let idx = $index) {
+        <ng-container matColumnDef="{{column}}">
+            <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+            <td mat-cell *matCellDef="let element"> {{element[columnDataDisplay[idx]]}} </td>
+        </ng-container>
+        }
+        <ng-container matColumnDef="expand">
+            <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-icon-button aria-label="expand row"
+                    (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
+                    @if (expandedElement === element) {
+                    <mat-icon>keyboard_arrow_up</mat-icon>
+                    } @else {
+                    <mat-icon>keyboard_arrow_down</mat-icon>
+                    }
+                </button>
+            </td>
+        </ng-container>
+
+        <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+        <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+                <div class="example-element-detail"
+                    [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                    <!-- {{element.holdingTransactionList[0].s_description}} -->
+                    <table #innerTables mat-table [dataSource]="element.holdingTransactionList">
+                        @for (column of innerColumnsToDisplay; track column; let idx = $index) {
+                        <ng-container matColumnDef="{{column}}">
+                            <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+                            <td mat-cell *matCellDef="let element"> {{element[innerColumnDataDisplay[idx]]}} </td>
+                        </ng-container>
+                        }
+                        <tr mat-header-row *matHeaderRowDef="innerColumnsToDisplay"></tr>
+                        <tr mat-row *matRowDef="let row; columns: innerColumnsToDisplay;"></tr>
+                    </table>
+                </div>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+        <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;" class="example-element-row"
+            [class.example-expanded-row]="expandedElement === element"
+            (click)="expandedElement = expandedElement === element ? null : element">
+        </tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+    </table>
+
+
+</div>
+
+
+
+}
